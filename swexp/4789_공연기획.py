@@ -1,11 +1,16 @@
 T = int(input())
 
+<<<<<<< HEAD
 for tc in range(1, T+1):
+=======
+for tc in range(1, T + 1):
+>>>>>>> 98c9168dc4165279994122d43c96725acd95b85c
     arr = list(map(int, input()))
     ct = 0
     result = 0
 
     for i in range(len(arr)):
+<<<<<<< HEAD
         if arr[i] == 0 :
             continue
         else:
@@ -29,3 +34,13 @@ for tc in range(1, T + 1):
             ct += 1  # 박수하는 사람을 세어봄
 
     print(f'#{tc} {ct}')
+=======
+        if ct < i:
+            result += (i - ct)
+            ct += (i - ct)
+
+        ct += arr[i]
+
+
+    print(f'#{tc} {result}')
+>>>>>>> 98c9168dc4165279994122d43c96725acd95b85c
