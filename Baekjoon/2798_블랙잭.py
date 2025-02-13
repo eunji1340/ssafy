@@ -3,15 +3,16 @@ number = list(map(int, input().split()))
 
 result = 0
 while True:
-    temp = 0
     for i in range(N-2):
-        temp += number[i]
-        for j in range(i, N-1):
-            temp += number[j]
-            for k in range(i, N):
-                temp += number[k]
-
-                if result < temp < M:
+        for j in range(i+1, N-1):
+            for k in range(j+1, N):
+                temp = number[i] + number[j] + number[k]
+                if result < temp <= M:
                     result = temp
+    else:
+        break
 
 print(result)
+
+
+#print(number[i], number[j], number[k], temp)
