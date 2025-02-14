@@ -21,9 +21,7 @@ while i < 10:       # 카드 번호 9까지...
         continue
     i += 1
 
-if run+tri==2:
+if run + tri == 2:
     print('win')
 else:
     print('lose')
-
-
