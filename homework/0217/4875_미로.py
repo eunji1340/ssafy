@@ -12,18 +12,20 @@ for tc in range(1, T+1):
                 c = j
 
     def find_path(r, c, maze):
-        stack = []
-        while 0 <= r < N and 0 <= c < N:
-            for dr, dc in [[0, 1], [-1, 0], [0, -1]]:
-                if maze[r + dr][c + dc] != 0:
-                    r = r + dr
-                    c = c + dc
-                    stack.append([r, c])
-                    break
-            else:
-                return 0
+        stack = [(r, c)]
+        while stack:
+            r, c = stack.pop()
             if maze[r][c] == 2:
                 return 1
+            if maze[r][c] == 0:
+                maze[r][c] = 1
+
+            for dr, dc in [[0, 1], [-1, 0], [0, -1], [1, 0]]:
+                nr = r + dr
+                nc = c + dc
+                if 0 <= nr < N and 0 <= nc < N and maze[nr][nc] != 1:
+                    stack.append((nr, nc))
+
         return 0
 
     print(f'#{tc} {find_path(r, c, maze)}')
