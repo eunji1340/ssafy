@@ -1,31 +1,30 @@
-from collections import deque
+'''
+7 8
+4 2 1 2 1 3 5 2 4 6 5 6 6 7 3 7
+'''
 
-T = int(input())
-for tc in range(1, T + 1):
-    N, M = map(int, input().split())
-    cheese = deque(list(map(int, input().split())))
-    q = deque([0] * N)
-    result = 0
+def bfs(s, V):
+    visited = [0] * (V + 1)
+    q = []
+    q.append(s)
+    visited[s] = 1
+    while q:
+        t = q.pop(0)
+        print(t)
+        for w in adj_l[t]:
+            if visited[w] == 0:
+                q.append(w)
+                visited[w]
 
-    i = 0
-    num = 1  # 피자 번호
-    count = 0  # 완성된 피자 개수
 
-    while count > 0 or cheese:
-        if q[i] == 0 and cheese: # 제일 처음에 피자 넣기
-            q[i] = [cheese.popleft(), num]
-            num += 1
-            count += 1
-        elif q[i] != 0:  # 피자가 이미 들어 있다면
-            q[i][0] //= 2
-            if q[i][0] == 0 and cheese:
-                q[i] = [cheese.popleft(), num]
-                num += 1
-                count += 1
-            elif q[i][0] == 0 and not cheese:
-                count -= 1
-                result = q[i][1]
+V, E = map(int, input().split())  # 1번부터 V번 정점, E개의 간선
+arr = list(map(int, input().split()))
 
-        i = (i + 1) % N
+# 인접리스트
+adj_l = [[] for _ in range(V+1)]
+for i in range(E):
+    v1, v2 = arr[i*2], arr[i*2+1]
+    adj_l[v1].append(v2)
+    adj_l[v2].append(v1)
 
-    print(f'#{tc} {result}')
+bfs(1, 7)

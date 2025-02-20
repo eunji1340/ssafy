@@ -1,43 +1,23 @@
 def winner(l, r):
     global cards
 
-    # 기저 조건
-    # 구간의 길이가 1일 때
     if l == r:
-        return 1
+        return l
 
-    mid = (l + r) // 2
-    l_win = winner(1, mid)
-    r_win = winner(mid+1, r)
+    mid = (l+r)//2
+    left = winner(l, mid)
+    right = winner(mid+1, r)
 
-    if cards[l_win] == cards[r_win]:
-        return l_win
+    if cards[left] == cards[right]:
+        return left
+    elif (cards[left] + 1) % 3 == cards[right] % 3:
+        return right
+    else:
+        return left
 
-    if cards[l_win] == 1:
-        if cards[r_win] == 2:
-            return r_win
-        elif cards[r_win] == 3:
-            return l_win
-    elif cards[l_win] == 2:
-        if cards[r_win] == 1:
-            return l_win
-        elif cards[r_win] == 3:
-            return r_win
-    elif cards[l_win] == 3:
-        if cards[r_win] == 1:
-            return r_win
-        elif cards[r_win] == 2:
-            return l_win
 
 T = int(input())
-
 for tc in range(1, T+1):
-    N = int(input())  # 카드 개수
+    N = int(input())
     cards = [0] + list(map(int, input().split()))
-
-    # 구간
-    # [i, j] 구간이라면
-    # [i, (i+j)//2], [(i+j)//2+1, j]
-
-    num = winner(1, N)  # [1, N] 구간의 승자의 번호
-    print(num)
+    print(f'#{tc} {winner(1, N)}')

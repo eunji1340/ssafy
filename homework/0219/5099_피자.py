@@ -2,25 +2,24 @@ from collections import deque
 
 T = int(input())
 for tc in range(1, T+1):
-    N, M = map(int, input().split())
-    cheeses = list(map(int, input().split()))
-    nums = list(range(1, M+1))
-    pizzas = list(zip(nums, cheeses))
+    N, M = map(int, input().split())  # N = 화덕의크기, M = 피자 개수
+    cheeses = list(map(int, input().split()))  # 치즈 양
+    pizza = deque(zip(range(1, M+1), cheeses))  # (피자번호, 치즈 양)
+    q = deque()  # 화덕
 
-    q = deque()
-
+    # 처음에 집어넣기
     for _ in range(N):
-        q.append(pizzas.pop(0))
+        q.append(pizza.popleft())
 
-    while len(q) > 1:
+    # 다 구워질때까지
+    num = cheese = 0
+    while len(q) > 0:
         num, cheese = q.popleft()
         cheese //= 2
 
-        if cheese == 0 and pizzas:
-            q.append(pizzas.pop(0))
+        if cheese == 0 and pizza:
+            q.append(pizza.popleft())
         elif cheese > 0:
             q.append((num, cheese))
-
-    num, cheese = q.popleft()
 
     print(f'#{tc} {num}')
