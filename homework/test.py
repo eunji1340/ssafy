@@ -1,30 +1,26 @@
-'''
-7 8
-4 2 1 2 1 3 5 2 4 6 5 6 6 7 3 7
-'''
-
-def bfs(s, V):
+def bfs(adj, S, G):
+    q = [S]
     visited = [0] * (V + 1)
-    q = []
-    q.append(s)
-    visited[s] = 1
+    visited[S] = 1
+
     while q:
-        t = q.pop(0)
-        print(t)
-        for w in adj_l[t]:
-            if visited[w] == 0:
-                q.append(w)
-                visited[w]
+        i = q.pop(0)
+        if i == G:
+            return visited[i] - 1
 
+        for ni in adj[i]:
+            if visited[ni] == 0:
+                q.append(ni)
+                visited[ni] = visited[i] + 1
 
-V, E = map(int, input().split())  # 1번부터 V번 정점, E개의 간선
-arr = list(map(int, input().split()))
+T = int(input())
+for tc in range(1, T+1):
+    V, E = map(int, input().split())
 
-# 인접리스트
-adj_l = [[] for _ in range(V+1)]
-for i in range(E):
-    v1, v2 = arr[i*2], arr[i*2+1]
-    adj_l[v1].append(v2)
-    adj_l[v2].append(v1)
-
-bfs(1, 7)
+    adj = [[] for _ in range(V + 1)]
+    for i in range(E):
+        v1, v2 = map(int, input().split())
+        adj[v1].append(v2)
+        adj[v2].append(v1)
+    S, G = map(int, input().split())
+    print(f'#{tc} {bfs(adj, S, G)}')
