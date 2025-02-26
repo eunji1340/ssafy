@@ -1,17 +1,24 @@
+def find_position(d, l):
+    if d == 1:
+        return l
+    elif d == 4:
+        return width + l
+    elif d == 2:
+        return width * 2 + height - l
+    elif d == 3:
+        return width * 2 + height * 2 - l
+
 width, height = map(int, input().split())
-block = [[0] * width for _ in range(height)]
 n = int(input())
+store = [list(map(int, input().split())) for _ in range(n)]
+pd, pl = map(int, input().split())
+p_pos = find_position(pd, pl)
 
-for i in range(n+1):
-    dir, leng = map(int, input().split())
-    if dir == 1:
-        block[0][leng] = i + 1
-    elif dir == 2:
-        block[-1][leng] = i + 1
-    elif dir == 3:
-        block[leng][0] = i + 1
-    elif dir == 4:
-        block[leng][-1] = i + 1
+total = 0
+length = width * 2 + height * 2
+for d, l in store:
+    s_pos = find_position(d, l)
+    distance = min(abs(p_pos - s_pos), length - abs(p_pos - s_pos))
+    total += distance
 
-for i in range(height):
-    print(*block[i])
+print(total)
