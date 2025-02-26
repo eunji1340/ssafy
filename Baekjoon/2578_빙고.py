@@ -1,14 +1,11 @@
 def check_binggo():
-    global ct
-    
-    # 가로, 세로, 대각선 체크 여부 기록
-    global row_checked, col_checked, diag_checked
+    global ct, row_checked, col_checked, diag_checked
 
     # 대각선
     if not diag_checked[0] and sum(binggo[i][i] for i in range(5)) == 0:
         diag_checked[0] = True
         ct += 1
-    
+
     if not diag_checked[1] and sum(binggo[i][4-i] for i in range(5)) == 0:
         diag_checked[1] = True
         ct += 1
@@ -24,8 +21,6 @@ def check_binggo():
         if not col_checked[i] and sum(binggo[j][i] for j in range(5)) == 0:
             col_checked[i] = True
             ct += 1
-    
-    return False
         
 binggo = [list(map(int, input().split())) for _ in range(5)]
 number = []
@@ -51,7 +46,3 @@ for num_i in range(25):
     if ct >= 3:
         print(num_i+1)
         break
-
-print('========================')
-for i in range(5):
-    print(*binggo[i])
