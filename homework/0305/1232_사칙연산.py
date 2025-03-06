@@ -1,30 +1,35 @@
-def pre_order(i):
-    global ct
-    lft = 2*i
-    rgt = 2*i + 1
-    
-    if lft <= N:
-        pre_order(lft)
+def pre_order(T):
+    if T:       
+        pre_order(left[T])
+        pre_order(right[T])
         
+        temp = tree[T]
+        if temp == '+':
+            tree[T] = tree[left[T]] + tree[right[T]]
+        elif temp == '-':
+            tree[T] = tree[left[T]] - tree[right[T]]
+        elif temp == '*':
+            tree[T] = tree[left[T]] * tree[right[T]]
+        elif temp == '/':
+            tree[T] = tree[left[T]] // tree[right[T]]
+
+        if T == 1:
+            return tree[T]
 
 for tc in range(1, 11):
     N = int(input())  # 정점의 개수
+    left = [0] * (N+1)
+    right = [0] * (N+1)
+    tree = [''] * (N+1)
     
-'''
-def inorder(i):
-    lft = 2*i # 왼쪽 자식 (배열의 인덱스 범위 안에 있다면)
-    rgt = 2*i + 1 #오른쪽 자식
-
-    # 왼쪽 트리 먼저 순회
-    if lft <= N: # 왼쪽 자식이 있다면
-        inorder(lft) # 왼쪽 자식을 기준으로 중위순회
+    for _ in range(N):
+        arr = input().split()
+        p = int(arr[0])
+        if len(arr) == 4:
+            left[p] = int(arr[2])
+            right[p] = int(arr[3])
+            tree[p] = arr[1]
+        else:
+            tree[p] = int(arr[1])
     
-    # 자기자신 순회 
-    tree[i] = cnt
-    cnt += 1
-
-    # 오른쪽 트리 순회
-    if rgt <= N: # 오른쪽 자식이 있다면
-        inorder(rgt)
-
-'''
+    print(f'#{tc} {pre_order(1)}')
