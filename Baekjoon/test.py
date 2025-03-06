@@ -1,13 +1,37 @@
-T = int(input())
-for tc in range(1, T+1):
-    N, K = map(int, input().split())
-    puzzle = [list(map(int, input().split())) for _ in range(N)]
-    result = 0
+def bfs(i):
+    front, rear = -1, 0
+    visited = [0] * (N + 1)
+    q = [0] * N
+    q[rear] = i
+    visited[i] = 1              
+    while front < rear:
+        front += 1
+        r = q[front]
+        for j in adj_matrix[r]:
+            if j == 0:
+                continue
+            if not visited[j]:
+                visited[j] = visited[r] + 1
+                rear += 1
+                q[rear] = j                 
+    S = sum(visited)
+    return S
 
-    # 가로 확인
-    for r in range(N):
-        for c in range(N-K+1):
-            if sum(puzzle[r][c:c+K]) == K and (c+K == N or puzzle[r][c+K] == 0):
-                result += 1
+N, E = map(int, input().split())
+edge = list(list(map(int, input().split())) for _ in range(E))
 
-    print(f'#{tc} {result}')
+adj_matrix = [[0] * (N + 1) for _ in range(N + 1)]
+S = [0] * (N + 1)
+
+for s, e in edge:
+    adj_matrix[s][e] = e
+    adj_matrix[e][s] = s
+
+for i in range(1, N + 1):
+    S[i] = bfs(i)
+
+m = min(S[1:])
+for i in range(1, N + 1):
+    if S[i] == m:
+        break
+print(i)
