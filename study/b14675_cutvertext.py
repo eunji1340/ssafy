@@ -1,12 +1,14 @@
+import sys
+input = sys.stdin.readline
+
 N = int(input())  # 트리의 정점 개수
 tree = [[] for _ in range(N+1)]
-bridge = [[] for _ in range(N-1)]
+
 for _ in range(N-1):
     a, b = map(int, input().split())
     tree[a].append(b)
     tree[b].append(a)
-    bridge.append()
-print(tree)
+
 q = int(input())
 for _ in range(q):
     t, k = map(int, input().split())
@@ -16,3 +18,4 @@ for _ in range(q):
         else:
             print('no')
     elif t == 2:
+        print('yes')
