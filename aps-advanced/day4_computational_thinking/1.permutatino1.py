@@ -12,6 +12,6 @@ def recur(cnt):
             continue
         path.append(num)
         recur(cnt + 1)
-        #path.pop()
+        path.pop()
 
 recur(0)
