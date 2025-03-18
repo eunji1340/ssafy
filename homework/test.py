@@ -1,52 +1,60 @@
-def find(left,right,target,prev):
-    if left>right:
-        return False
-    mid=(left+right)//2
-    if lst_n[mid]==target:
-        return mid
-    if target >lst_n[mid]:#오른쪽 탐색색
-        if prev==1:
-            return False
-        return find(mid+1,right,target,1)
-    else:#왼쪽 탐색색
-        if prev==0: 
-            return False
-        return find(left,mid-1,target,0)
-def find2(target):
-    left=0
-    right=n-1
-    prev=None
-    while left<=right:
-        mid=(left+right)//2
-        if lst_n[mid]==target:
-            return mid
-        if target >lst_n[mid]:
-            if prev==1:
-                return False
-            prev=1
-            left=mid+1
-        else:
-            if prev==0:
-                return False
-            prev=0
-            right= mid-1
-    return False
-t=int(input())
-for test in range(1,t+1):
-    n,m=map(int,input().split())
-    lst_n=list(map(int,input().split()))
-    lst_m=list(map(int,input().split()))
-    lst_n.sort()
-    cnt=0
-    cnt2=0
-    for i in range(m):
-        if find(0,n-1,lst_m[i],100) is not False:
-            cnt+=1
-    # for i in range(m):
-    #     res=find2(lst_m[i])
-    #     if res is False:
-    #         continue
-    #     else:
-    #         cnt2+=1
-    print(f"#{test} {cnt}")
-    # print(f"#{test} {cnt2}")
+import sys
+sys.stdin = open("input.txt", "r")
+
+def cal():
+    global min_diff
+    result = 0
+    for i in range(N):
+        for j in range(N):
+            if i!=j:
+                if selected[i] and selected[j]:
+                    result += S[i][j]
+                elif not selected[i] and not selected[j]:
+                    result -= S[i][j]
+    min_diff = min(abs(result), min_diff)
+    return
+
+
+def cook(idx, num):
+    global N, S, min_diff, selected
+    if num > N//2:
+        return
+    if idx == N-1:
+        if num == N//2:
+            cal()
+        return
+
+    cook(idx+1, num)
+
+    selected[idx] = 1
+    cook(idx+1, num+1)
+    selected[idx] = 0
+
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    S = [list(map(int, input().split())) for _ in range(N)]
+
+    min_diff = 320000
+    selected = [0]*N
+    cook(0, 0)
+    print(f"#{tc} {min_diff}")
+
+# def cook(n):
+#     global N, S, min_diff, selected
+#     if n == N//2:
+#         result1 = 0
+#         result2 = 0
+#         for i in range(N):
+#             if selected[i]:
+#                 for j in range(N):
+#                     if selected[j] and i != j:
+#                         result1 += S[i][j]
+#                         result1 += S[j][i]
+#             else:
+#                 for j in range(N):
+#                     if not selected[j] and i!=j:
+#                         result2 += S[i][j]
+#                         result2 += S[j][i]
+#             min_diff = min(abs(result1-result2), min_diff)

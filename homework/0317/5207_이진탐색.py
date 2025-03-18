@@ -1,36 +1,39 @@
-def binary_search(num):
+def binary_serch(n):
     global ans
     l = 0
-    r = len(A) - 1
+    r = N - 1
     prev = 0
-    check = False
-    ct = 0
+    check = True
     
     while l <= r:
-        ct += 1
-        mid = (l + r) // 2
-        if A[mid] == num:
-            if check or ct <= 2:
+        m = (l + r) // 2
+        
+        if A[m] == n:
+            if check:
                 ans += 1
             return
         
-        if num < A[mid]:
-            if prev == 1:
-                check = True
-            prev = -1
-            r = mid - 1
+        if n < A[m]:
+            r = m - 1
+            now = -1
         else:
-            if prev == -1:
-                check = True
-            prev = 1
-            l = mid + 1
-    
+            l = m + 1
+            now = 1
+            
+        if prev == now:
+            check = False
+        prev = now
+    return
+
 T = int(input())
 for tc in range(1, T+1):
     N, M = map(int, input().split())
     A = list(map(int, input().split()))
+    A.sort()
     B = list(map(int, input().split()))
     ans = 0
-    for n in B:
-        binary_search(n)
+    
+    for num in B:
+        binary_serch(num)
+    
     print(f'#{tc} {ans}')
