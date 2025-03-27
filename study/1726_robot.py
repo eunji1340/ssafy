@@ -31,11 +31,10 @@ def bfs(start, end):
                 q.append((nr, nc, d, ct + 1))
 
         # Turn: left / right (반대 방향 제외)
-        for nd in range(4):
-            if nd != d and nd != (d + 2) % 4:  # 반대 방향 제외
-                if not visited[r][c][nd]:
-                    visited[r][c][nd] = 1
-                    q.append((r, c, nd, ct + 1))
+        for nd in [(d + 1) % 4, (d + 3) % 4]:  # right, left
+            if not visited[r][c][nd]:
+                visited[r][c][nd] = 1
+                q.append((r, c, nd, ct + 1))
 
 
 M, N = map(int, input().split())  # 세로, 가로

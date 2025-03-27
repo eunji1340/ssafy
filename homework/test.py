@@ -1,36 +1,35 @@
-def find(a):
-    if parents[a] == a:
-        return a
+import heapq
+
+
+dr = [1, -1, 0, 0]
+dc = [0, 0, -1, 1]
+
+def dijkstra():
+    hq = [(0, 0, 0)]
+    dists = [[float('inf')] * N for _ in range(N)]
+    dists[0][0] = 0
     
-    return find(parents[a])
+    while hq:
+        w, r, c = heapq.heappop(hq)
+        
+        if w > dists[r][c]:
+            continue
+        
+        for d in range(4):
+            nr, nc = r + dr[d], c + dc[d]
+            if not (0 <= nr < N and 0 <= nc < N):
+                continue
+                
+            nw = w + arr[nr][nc]
+            if dists[nr][nc] > nw:
+                dists[nr][nc] = nw
+                heapq.heappush(hq, (nw, nr, nc))
     
+    return dists[N-1][N-1]
 
-def union(a, b):
-    a_root = find2(a)
-    b_root = find2(b)
-    if a_root != b_root:
-        parents[b] = a_root
-
-
-def find2(a):
-    global parents
-    if parents[a] == a:
-        return a
-
-    parents[a] = find2(parents[a])
-    return parents[a]
 
 T = int(input())
 for tc in range(1, T+1):
-    N, M = map(int, input().split())
-    arr = list(map(int, input().split()))
-    
-    parents = [0] * (N + 1)
-    for i in range(1, N + 1):
-        parents[i] = i
-        
-    for i in range(M):
-        a = arr[i * 2]
-        b = arr[i * 2 + 1]
-        union(a, b)
-    print(parents)
+    N = int(input())
+    arr = [list(map(int, input())) for _ in range(N)]
+    print(f'#{tc} {dijkstra()}')

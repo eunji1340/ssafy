@@ -46,10 +46,3 @@ for _ in range(E):
 # result_dists: 0에서 출발해서, 다른 노드들까지의 최단 거리를 모두 구한다.
 result_dists = dijkstra(0)
 print(result_dists)
-
-
-
-
-
-
-

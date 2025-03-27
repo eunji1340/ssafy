@@ -32,5 +32,15 @@
     <mapping directory="$PROJECT_DIR$/homework/0326/django_ws_3_a" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/homework/0326/django_ws_3_b" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/homework/0326/django_ws_3_c" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_hw_4_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_hw_4_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_a" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_b" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/homework/0327/django_ws_4_c" vcs="Git" />
   </component>
 </project>
