@@ -1,7 +1,47 @@
 import sys
 sys.stdin = open('input.txt', 'r')
+import heapq
 
 
+def prim():
+    pq = [(0, 0)]
+    visited = [0] * N
+    min_cost = ct = 0
+    dists = [float('inf')] * N
+    dists[0] = 0
+
+    while pq:
+        cost, node = heapq.heappop(pq)
+
+        if visited[node]:
+            continue
+
+        visited[node] = 1
+        min_cost += cost
+
+        ct += 1
+        if ct == N:
+            return round(min_cost)
+
+        for next_node in range(N):
+            if not visited[next_node]:
+                new_cost = ((xl[node] - xl[next_node]) ** 2 + (yl[node] - yl[next_node]) ** 2) * E
+
+                if new_cost < dists[next_node]:
+                    dists[next_node] = new_cost
+                    heapq.heappush(pq, (new_cost, next_node))
+
+
+T = int(input())
+for tc in range(1, T + 1):
+    N = int(input())
+    xl = list(map(int, input().split()))
+    yl = list(map(int, input().split()))
+    E = float(input())
+    print(f'#{tc} {prim()}')
+
+# kruskal
+'''
 def find_parent(a):
     if parents[a] != a:
         parents[a] = find_parent(parents[a])
@@ -42,3 +82,5 @@ for tc in range(1, T+1):
                 break
                 
     print(f'#{tc} {round(total_cost)}')
+'''
+
