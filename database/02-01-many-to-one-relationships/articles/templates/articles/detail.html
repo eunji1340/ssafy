@@ -20,22 +20,24 @@
     <input type="submit" value="삭제">
   </form>
   <hr>
-  <form action="{% url 'articles:comments_create' article.pk %}" method='POST'>
+  {% comment %} 댓글 작성 Form {% endcomment %}
+  <form action="{% url "articles:comments_create" article.pk  %}" method="POST">
     {% csrf_token %}
     {{ comment_form }}
     <input type="submit">
   </form>
   <hr>
+  {% comment %} 댓글 목록 {% endcomment %}
   <h2>댓글 목록</h2>
   <ul>
     {% for comment in comments %}
-    <li>
-      {{ comment.content }}
-      <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method='POST'>
-        {% csrf_token %}
-        <input type="submit" value='삭제'>
-      </form>
-    </li>
+      <li>
+        {{ comment.content }}
+        <form action="{% url "articles:comments_delete" article.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="삭제">
+        </form>
+      </li>
     {% endfor %}
   </ul>
   <a href="{% url "articles:index" %}">[back]</a>
