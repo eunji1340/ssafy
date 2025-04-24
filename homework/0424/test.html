@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Little Prince Game</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background: linear-gradient(#1e3c72, #2a5298);
+      font-family: sans-serif;
+      color: white;
+    }
+
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #instructions {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="instructions">
+    <strong>The Little Prince 🌟</strong><br>
+    - 클릭: 새로운 행성 만들기<br>
+    - 행성 클릭: 장미 심기 / 제거<br>
+    - 키보드 ← → ↑ ↓: 어린 왕자 이동<br>
+    - 어린 왕자가 행성에 닿으면 멈춤<br>
+  </div>
+
+  <canvas id="gameCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas')
+    const ctx = canvas.getContext('2d')
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    resizeCanvas()
+    window.addEventListener('resize', resizeCanvas)
+
+    const roseImg = new Image()
+    const princeImg = new Image()
+
+    roseImg.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Rose_icon.svg/1024px-Rose_icon.svg.png'
+    princeImg.src = 'https://upload.wikimedia.org/wikipedia/commons/1/13/Little_prince_standing.png'
+
+    let imagesLoaded = 0
+    function tryStartGame() {
+      imagesLoaded++
+      if (imagesLoaded === 2) {
+        animate()
+      }
+    }
+
+    roseImg.onload = tryStartGame
+    princeImg.onload = tryStartGame
+
+    const planets = []
+    const prince = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      size: 50,
+      speed: 3,
+      dx: 0,
+      dy: 0
+    }
+
+    function createPlanet(x, y) {
+      return {
+        x,
+        y,
+        size: 50,
+        hasRose: false
+      }
+    }
+
+    function drawPlanet(p) {
+      ctx.fillStyle = '#ffd54f'
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+      ctx.fill()
+      if (p.hasRose) {
+        ctx.drawImage(roseImg, p.x - 20, p.y - 60, 40, 40)
+      }
+    }
+
+    function drawPrince() {
+      ctx.drawImage(princeImg, prince.x - prince.size / 2, prince.y - prince.size / 2, prince.size, prince.size)
+    }
+
+    function isColliding(px, py, obj) {
+      const dx = px - obj.x
+      const dy = py - obj.y
+      return Math.sqrt(dx * dx + dy * dy) < obj.size
+    }
+
+    canvas.addEventListener('click', function (e) {
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
+      let clickedOnPlanet = false
+      for (let planet of planets) {
+        if (isColliding(x, y, planet)) {
+          planet.hasRose = !planet.hasRose
+          clickedOnPlanet = true
+          break
+        }
+      }
+
+      if (!clickedOnPlanet) {
+        planets.push(createPlanet(x, y))
+      }
+    })
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prince.dx = -prince.speed
+      else if (e.key === 'ArrowRight') prince.dx = prince.speed
+      else if (e.key === 'ArrowUp') prince.dy = -prince.speed
+      else if (e.key === 'ArrowDown') prince.dy = prince.speed
+    })
+
+    window.addEventListener('keyup', (e) => {
+      if (['ArrowLeft', 'ArrowRight'].includes(e.key)) prince.dx = 0
+      if (['ArrowUp', 'ArrowDown'].includes(e.key)) prince.dy = 0
+    })
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      let nextX = prince.x + prince.dx
+      let nextY = prince.y + prince.dy
+      let collided = false
+      for (let planet of planets) {
+        if (isColliding(nextX, nextY, planet)) {
+          collided = true
+          break
+        }
+      }
+      if (!collided) {
+        prince.x = nextX
+        prince.y = nextY
+      }
+
+      planets.forEach(drawPlanet)
+      drawPrince()
+      requestAnimationFrame(animate)
+    }
+  </script>
+</body>
+
+</html>
